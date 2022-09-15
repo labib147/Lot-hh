@@ -2,7 +2,7 @@
 `yarn add --dev hardhat`
 "To create an empty hardhat project"
 1npm init / yarn init1
-"Tor package.json"
+"For package.json"
 `npm install / yarn install`
 "For node_modules"
 `yarn hardhat`
