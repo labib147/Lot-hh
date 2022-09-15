@@ -45,7 +45,7 @@ contract Lottery is VRFConsumerBaseV2, KeeperCompatibleInterface {
     event WinnerPicked(address indexed winner);
 
     constructor(
-        address vrfCoordinatorV2,
+        address vrfCoordinatorV2, // contract address
         uint256 entranceFee,
         bytes32 gasLane,
         uint64 subscriptionId,
@@ -89,10 +89,9 @@ contract Lottery is VRFConsumerBaseV2, KeeperCompatibleInterface {
      */
 
     function checkUpkeep(
-        bytes memory /*checkData*/
+        bytes memory /*checkData*/ /*CALLDATA doesn't work with strings so we use MEMORY*/
     )
         public
-        view
         override
         returns (
             bool upkeepNeeded,
@@ -165,5 +164,23 @@ contract Lottery is VRFConsumerBaseV2, KeeperCompatibleInterface {
         return s_recentWinner;
     }
 
-    // function performUpkeep(bytes calldata performData) external override {}
+    function getRaffleState() public view returns (RaffleState) {
+        return s_raffleState;
+    }
+
+    function getNumWords() public pure returns (uint256) {
+        return NUM_WORDS; // returning NUM_WORDS doesn't read from storage,it will go to the contract and read the number 1
+    }
+
+    function getNumberOfPlayers() public view returns (uint256) {
+        return s_players.length;
+    }
+
+    function getLatestTimeStamp() public view returns (uint256) {
+        return s_lastTimeStamp;
+    }
+
+    function getRequestConfirmations() public pure returns (uint256) {
+        return REQUEST_CONFIRMATIONS;
+    }
 }
